@@ -396,6 +396,39 @@ class MoleculePool(Sequence):
                 for row in reader:
                     yield row[self.smiles_col]
 
+    def write_batch(self, path, smis) -> Iterator[str]:
+        """Write original inputs for selected SMILES input"""
+
+        w = csv.writer(open(path, 'w'), delimiter=self.delimiter)
+        header = False
+
+        for library in self.libraries:
+            if Path(library).suffix == ".gz":
+                open_ = partial(gzip.open, mode="rt")
+            else:
+                open_ = open
+
+            with open_(library) as fid:
+                reader = csv.reader(fid, delimiter=self.delimiter)
+                if self.title_line:
+                    row = next(reader)
+                    if not header:
+                        w.writerow(row)
+
+                if self.invalid_idxs:
+                    for i, row in enumerate(reader):
+                        if i in self.invalid_idxs:
+                            continue
+                        smi = row[self.smiles_col]
+                        if smi in smis:
+                            w.writerow(row)
+                else:
+                    for row in reader:
+                        smi = row[self.smiles_col]
+                        if smi in smis:
+                            w.writerow(row)
+
+
     def fps(self) -> Iterator[np.ndarray]:
         """Return a generator over pool molecules' feature representations
 

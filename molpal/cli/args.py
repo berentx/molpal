@@ -309,6 +309,14 @@ def add_model_args(parser: ArgumentParser):
         help="Confidence estimation method for NN/MPNN models",
     )
 
+    model_parser.add_argument(
+        "--epochs",
+        type=int,
+        default=50,
+        help="number of epochs for MPNN model",
+    )
+
+
 
 ##################################
 #       STOPPING ARGUMENTS       #

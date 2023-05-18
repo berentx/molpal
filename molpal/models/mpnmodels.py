@@ -182,7 +182,7 @@ class MPNN:
         lit_model = mpnn.ptl.LitMPNN(self.train_config)
 
         callbacks = [
-            EarlyStopping("val_loss", patience=10, mode="min"),
+            EarlyStopping("val_loss", patience=3, mode="min"),
             mpnn.ptl.EpochAndStepProgressBar(),
         ]
         trainer = PlTrainer(
@@ -293,13 +293,14 @@ class MPNModel(Model):
         ncpu: int = 1,
         ddp: bool = False,
         precision: int = 32,
+        epochs: int = 50,
         model_seed: Optional[int] = None,
         **kwargs,
     ):
         test_batch_size = test_batch_size or 1000000
 
         self.build_model = partial(
-            MPNN, ncpu=ncpu, ddp=ddp, precision=precision, model_seed=model_seed
+            MPNN, ncpu=ncpu, ddp=ddp, precision=precision, model_seed=model_seed, epochs=epochs
         )
         self.model = self.build_model()
 
@@ -345,6 +346,7 @@ class MPNDropoutModel(Model):
         ncpu: int = 1,
         ddp: bool = False,
         precision: int = 32,
+        epochs: int = 50,
         model_seed: Optional[int] = None,
         **kwargs,
     ):
@@ -358,6 +360,7 @@ class MPNDropoutModel(Model):
             ddp=ddp,
             precision=precision,
             model_seed=model_seed,
+            epochs=epochs,
         )
         self.model = self.build_model()
 
@@ -412,13 +415,14 @@ class MPNTwoOutputModel(Model):
         ncpu: int = 1,
         ddp: bool = False,
         precision: int = 32,
+        epochs: int = 50,
         model_seed: Optional[int] = None,
         **kwargs,
     ):
         test_batch_size = test_batch_size or 1000000
 
         self.build_model = partial(
-            MPNN, uncertainty="mve", ncpu=ncpu, ddp=ddp, precision=precision, model_seed=model_seed
+            MPNN, uncertainty="mve", ncpu=ncpu, ddp=ddp, precision=precision, model_seed=model_seed, epochs=epochs
         )
         self.model = self.build_model()
 

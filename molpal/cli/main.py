@@ -1,6 +1,6 @@
 from configargparse import ArgumentParser
 
-from molpal.cli import run, extract
+from molpal.cli import run, extract, train
 
 
 def main():
@@ -10,6 +10,11 @@ def main():
     run_parser = subparsers.add_parser("run", help="Run the main MolPAL program")
     run.add_args(run_parser)
     run_parser.set_defaults(func=run.main)
+
+    train_parser = subparsers.add_parser("train", help="Train model")
+    train.add_args(train_parser)
+    train_parser.set_defaults(func=train.main)
+
 
     extract_parser = subparsers.add_parser(
         "extract", help="extract output docking files from a MolPAL run"
