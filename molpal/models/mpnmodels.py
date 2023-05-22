@@ -182,7 +182,7 @@ class MPNN:
         lit_model = mpnn.ptl.LitMPNN(self.train_config)
 
         callbacks = [
-            EarlyStopping("val_loss", patience=3, mode="min"),
+            EarlyStopping("val_loss", patience=10, mode="min"),
             mpnn.ptl.EpochAndStepProgressBar(),
         ]
         trainer = PlTrainer(

@@ -57,12 +57,16 @@ def main(args):
 
     start = time()
     try:
-        print("Starting exploration...")
-        print(f"{explorer.status}.", flush=True)
-        explorer.explore_initial()
+        if args.score_only:
+            explorer.update_predictions()
 
-        print(f"{explorer.status}. Continuing...", flush=True)
-        explorer.explore_batch()
+        else:
+            print("Starting exploration...")
+            print(f"{explorer.status}.", flush=True)
+            explorer.explore_initial()
+
+            print(f"{explorer.status}. Continuing...", flush=True)
+            explorer.explore_batch()
 
         explorer.write_scores(final=True)
 

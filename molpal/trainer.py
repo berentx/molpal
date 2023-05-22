@@ -441,8 +441,8 @@ class Explorer:
         #if len(self.scores) >= self.k:
         #    self.recent_avgs.append(self.avg())
 
-        #if self.write_intermediate:
-        #    self.write_scores()
+        if self.write_intermediate:
+            self.write_scores()
 
         self.iter += 1
         batch_path = f'{self.path}/new_batch_{self.iter}.csv'
@@ -677,8 +677,9 @@ class Explorer:
         self.recent_avgs.extend(state["recent_avgs"])
 
         preds_npz = np.load(state["preds"])
-        self.Y_mean = preds_npz["Y_mean"]
-        self.Y_var = preds_npz["Y_var"]
+        if "Y_mean" in preds_npz:
+            self.Y_mean = preds_npz["Y_mean"]
+            self.Y_var = preds_npz["Y_var"]
 
         self.model.load(state["model"])
 
