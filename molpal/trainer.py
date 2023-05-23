@@ -378,7 +378,7 @@ class Explorer:
         except ZeroDivisionError:
             return None
 
-    def explore_batch(self) -> Optional[float]:
+    def explore_batch(self, train=True) -> Optional[float]:
         """Perform a round of exploration
 
         Returns
@@ -399,7 +399,8 @@ class Explorer:
             print("MoleculePool has been exhausted! No additional exploration will be performed.")
             return None
 
-        self.fit_model()
+        if train:
+            self.fit_model()
         self.update_predictions()
 
         if self.prune:
@@ -441,8 +442,8 @@ class Explorer:
         #if len(self.scores) >= self.k:
         #    self.recent_avgs.append(self.avg())
 
-        if self.write_intermediate:
-            self.write_scores()
+        #if self.write_intermediate:
+        #    self.write_scores()
 
         self.iter += 1
         batch_path = f'{self.path}/new_batch_{self.iter}.csv'

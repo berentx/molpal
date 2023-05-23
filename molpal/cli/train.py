@@ -58,7 +58,7 @@ def main(args):
     start = time()
     try:
         if args.score_only:
-            explorer.update_predictions()
+            explorer.explore_batch(train=False)
 
         else:
             print("Starting exploration...")

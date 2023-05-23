@@ -62,6 +62,11 @@ def add_general_args(parser: ArgumentParser) -> None:
         help="the checkpoint file containing the state of a previous molpal run.",
     )
     parser.add_argument(
+        "--train-only",
+        action="store_true",
+        help="train only",
+    )
+    parser.add_argument(
         "--score-only",
         action="store_true",
         help="score only",
