@@ -399,6 +399,7 @@ class Explorer:
             print("MoleculePool has been exhausted! No additional exploration will be performed.")
             return None
 
+        print(self.k)
         if train:
             self.fit_model()
         self.update_predictions()

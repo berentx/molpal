@@ -338,7 +338,7 @@ class Acquirer:
             mins, secs = divmod(int(total), 60)
             print(f"      Batch acquisition took {mins}m {secs}s")
 
-        return [x for _, x in sorted(heap, reverse=True)]
+        return [(x, _) for _, x in sorted(heap, reverse=True)]
 
     def scale_heaps(self, d_cid_heap: Dict[int, List], global_pred_max: float, it: int):
         """Scale each heap's size based on a decay factor

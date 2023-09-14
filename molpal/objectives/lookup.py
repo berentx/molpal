@@ -44,8 +44,11 @@ class LookupObjective(Objective):
                 next(fid)
 
             for row in tqdm(reader, "Building oracle", leave=False):
-                key = row[smiles_col]
-                val = row[score_col]
+                try:
+                    key = row[smiles_col]
+                    val = row[score_col]
+                except:
+                    continue
                 try:
                     self.data[key] = float(val)
                 except ValueError:

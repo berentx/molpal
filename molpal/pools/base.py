@@ -396,11 +396,19 @@ class MoleculePool(Sequence):
                 for row in reader:
                     yield row[self.smiles_col]
 
-    def write_batch(self, path, smis) -> Iterator[str]:
+    def write_batch(self, path, inputs) -> Iterator[str]:
         """Write original inputs for selected SMILES input"""
 
         w = csv.writer(open(path, 'w'), delimiter=self.delimiter)
         header = False
+
+        smis = []
+        scores = []
+        for smi, u in inputs:
+            smis.append(smi)
+            scores.append(u)
+        smis = np.array(smis)
+        scores= np.array(scores)
 
         for library in self.libraries:
             if Path(library).suffix == ".gz":
@@ -426,6 +434,8 @@ class MoleculePool(Sequence):
                     for row in reader:
                         smi = row[self.smiles_col]
                         if smi in smis:
+                            score = scores[smis == smi][0]
+                            row.append(score)
                             w.writerow(row)
 
 

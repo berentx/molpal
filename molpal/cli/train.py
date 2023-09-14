@@ -68,7 +68,7 @@ def main(args):
             print(f"{explorer.status}. Continuing...", flush=True)
             explorer.explore_batch()
 
-        explorer.write_scores(final=True)
+        #explorer.write_scores(final=True)
 
     except BaseException:
         d_chkpts = f"{path}/chkpts"
